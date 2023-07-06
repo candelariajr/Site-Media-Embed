@@ -1,2 +1,2 @@
 # Location
-root before application
+native directory
