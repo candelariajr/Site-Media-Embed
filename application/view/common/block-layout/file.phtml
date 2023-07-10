@@ -8,7 +8,7 @@
 		?>
         <?php
         $media = $attachment->media() ?: $item->primaryMedia();
-        $sktechFab = false;
+        $sketchFab = false;
         if($item->resourceTemplate()){
             if($item->resourceTemplate()->label() == "3D Resource"){
                 $sketchFab = $item->value("mods:locationUrl");
