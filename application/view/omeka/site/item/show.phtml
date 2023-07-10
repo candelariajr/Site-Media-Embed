@@ -67,7 +67,8 @@ if($sketchFab):
 <?php
 $page = $this->params()->fromQuery('page', 1);
 $property = $this->params()->fromQuery('property');
-$subjectValues = $item->displaySubjectValues($page, 25, $property);
+//$subjectValues = $item->displaySubjectValues($page, 25, $property);
+$subjectValues = false;
 ?>
 <?php if ($subjectValues): ?>
 <div id="item-linked">
@@ -76,8 +77,8 @@ $subjectValues = $item->displaySubjectValues($page, 25, $property);
 </div>
 <?php endif; ?>
 
-<?php 
+<?php
 if(!$sketchFab){
-    $this->trigger('view.show.after'); 
+    $this->trigger('view.show.after');
 }
 ?>
