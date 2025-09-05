@@ -8,11 +8,11 @@ $itemMedia = $item->media();
 $filterLocale = (bool) $this->siteSetting('filter_locale_values');
 $lang = $this->lang();
 
-// determine if this is a SketchFab item. If so, then set the url
-$sketchFab = false;
+// determine if this is a thingLink item. If so, then set the url
+$thingLink = false;
 if($item->resourceTemplate()){
     if($item->resourceTemplate()->label() == "3D Resource"){
-        $sketchFab = $item->value("mods:locationUrl");
+        $thingLink = $item->value("mods:locationUrl");
     }
 }
 ?>
@@ -20,8 +20,8 @@ if($item->resourceTemplate()){
 <?php echo $this->pageTitle($item->displayTitle(null, ($filterLocale ? $lang : null)), 2); ?>
 <h3><?php echo $translate('Item'); ?></h3>
 <?php $this->trigger('view.show.before'); ?>
-<?php // Don't allow media render to run if this is a SketchFab item ?>
-<?php if ($embedMedia && $itemMedia && !$sketchFab): ?>
+<?php // Don't allow media render to run if this is a thingLink item ?>
+<?php if ($embedMedia && $itemMedia && !$thingLink): ?>
     <div class="media-embeds">
     <?php foreach ($itemMedia as $media):
         echo $media->render();
@@ -30,11 +30,14 @@ if($item->resourceTemplate()){
     </div>
 <?php endif; ?>
 <?php
-//Render SketchFab
-if($sketchFab):
+//Render SketchFab ---> Code repurposed to ThingLink
+if($thingLink):
 ?>
 <div>
-    <iframe width="80%" height="600px" src="<?php echo $sketchFab; ?>/embed" frameborder="0" allowvr="" allowfullscreen="true" webkitallowfullscreen="true" onmousewheel=""></iframe>
+    <iframe width="80%" height="600px" data-original-width="80%" data-original-height="600px" src="<?php echo $thingLink; ?>" type="text/html" style="border: none;" webkitallowfullscreen mozallowfullscreen allowfullscreen scrolling="no"></iframe>
+	<script async src="//cdn.thinglink.me/jse/responsive.js"></script>
+	<br/>
+	<a href="<?php echo $thingLink; ?>/accessibility" target="_blank" rel="noopener noreferrer">Click here to view the accessible version of this interactive content</a>
 </div>
 <?php endif; ?>
 <?php echo $item->displayValues(); ?>
@@ -78,7 +81,7 @@ $subjectValues = false;
 <?php endif; ?>
 
 <?php
-if(!$sketchFab){
+if(!$thingLink){
     $this->trigger('view.show.after');
 }
 ?>
