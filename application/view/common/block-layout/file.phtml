@@ -8,14 +8,14 @@
 		?>
         <?php
         $media = $attachment->media() ?: $item->primaryMedia();
-        $sketchFab = false;
+        $thingLink = false;
         if($item->resourceTemplate()){
             if($item->resourceTemplate()->label() == "3D Resource"){
-                $sketchFab = $item->value("mods:locationUrl");
+                $thingLink = $item->value("mods:locationUrl");
             }
         }
 
-        if ($media && !$sketchFab):
+        if ($media && !$thingLink):
             echo $media->render([
                 'thumbnailType' => $thumbnailType,
                 'link' => $link,
@@ -28,9 +28,12 @@
         <?php elseif ($showTitleOption == 'file_name'): ?>
         <h3><?php echo $media->displayTitle(); ?></h3>
         <?php endif; ?>
-        <?php if($sketchFab):?>
+        <?php if($thingLink):?>
              <div>
-                  <iframe width="100%" height="250px" src="<?php echo $sketchFab; ?>/embed" frameborder="0" allowvr="" allowfullscreen="true" webkitallowfullscreen="true" onmousewheel=""></iframe>
+				<iframe width="640" height="360" data-original-width="640" data-original-height="360" src=""<?php echo $thingLink; ?>" type="text/html" style="border: none;" webkitallowfullscreen mozallowfullscreen allowfullscreen scrolling="no"></iframe>
+				<script async src="//cdn.thinglink.me/jse/responsive.js"></script>
+				<br/>
+				<a href="<?php echo $thingLink; ?>/accessibility" target="_blank" rel="noopener noreferrer">Click here to view the accessible version of this interactive content</a>
              </div>
         <?php endif;?>
     <?php endif; ?>
