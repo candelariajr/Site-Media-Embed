@@ -4,16 +4,16 @@
     <?php
     $item = $attachment->item();
     if ($item):
-    $sketchFab = false;
+    $thingLink = false;
     if($item->resourceTemplate()){
         if($item->resourceTemplate()->label() == "3D Resource"){
-            $sketchFab = $item->value("mods:locationUrl");
+            $thingLink = $item->value("mods:locationUrl");
         }
     }
     ?>
         <?php
         $media = $attachment->media() ?: $item->primaryMedia();
-        if ($media && !$sketchFab):
+        if ($media && !$thingLink):
             echo $item->linkRaw($this->thumbnail($media, $this->thumbnailType));
         endif;
         ?>
@@ -24,8 +24,11 @@
         <h3><?php echo $media->displayTitle(); ?></h3>
         <?php endif; ?>
     <?php endif; ?>
-    <?php if ($sketchFab): ?>
-        <iframe width="100%" height="250px" src="<?php echo $sketchFab;?>/embed" frameborder="0" allowvr="" allowfullscreen="true" webkitallowfullscreen="true" onmousewheel=""></iframe>
+    <?php if ($thingLink): ?>
+        <iframe width="100%" height="250px" data-original-width="100%" data-original-height="250px" src=""<?php echo $thingLink; ?>" type="text/html" style="border: none;" webkitallowfullscreen mozallowfullscreen allowfullscreen scrolling="no"></iframe>
+		<script async src="//cdn.thinglink.me/jse/responsive.js"></script>
+		<br/>
+		<a href="<?php echo $thingLink; ?>/accessibility" target="_blank" rel="noopener noreferrer">Click here to view the accessible version of this interactive content</a>
     <?php endif; ?>
     <?php
     $caption = $attachment->caption();
