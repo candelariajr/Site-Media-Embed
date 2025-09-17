@@ -1,49 +1,62 @@
 <?php
-$translate = $this->plugin('translate');
-$escape = $this->plugin('escapeHtml');
-$this->headLink()->appendStylesheet($this->assetUrl('css/lightslider.min.css'));
-$this->headLink()->appendStylesheet($this->assetUrl('css/lightgallery.min.css'));
-$this->headScript()->appendFile($this->assetUrl('js/lightslider.min.js'));
-$this->headScript()->appendFile($this->assetUrl('js/lightgallery.min.js'));
-$this->headScript()->appendFile($this->assetUrl('js/lg-video.min.js'));
-$this->headScript()->appendFile($this->assetUrl('js/lg-zoom.js'));
-
+$translate = $this->plugin("translate");
+$escape = $this->plugin("escapeHtml");
+$this->headLink()->appendStylesheet($this->assetUrl("css/lightslider.min.css"));
+$this->headLink()->appendStylesheet(
+    $this->assetUrl("css/lightgallery.min.css")
+);
+$this->headScript()->appendFile($this->assetUrl("js/lightslider.min.js"));
+$this->headScript()->appendFile($this->assetUrl("js/lightgallery.min.js"));
+$this->headScript()->appendFile($this->assetUrl("js/lg-video.min.js"));
+$this->headScript()->appendFile($this->assetUrl("js/lg-zoom.js"));
 ?>
 <div class="item-with-metadata">
-<?php foreach($attachments as $attachment): ?>
+<?php foreach ($attachments as $attachment): ?>
     <?php
-      $item = $attachment->item();
-      $imageMedia = [];
-      $otherMedia = [];
-      foreach ($item->media() as $media) {
-          $mediaType = $media->mediaType();
-          $mediaRenderer = $media->renderer();
-          if ((strpos($mediaType, 'image/') !== false) || (strpos($mediaRenderer, 'youtube') !== false)) {
-              $imageMedia[] = $media;
-          } else {
-              $otherMedia[] = $media;
-          }
-      }
-    ?>
-    <?php
-    $sketchFab = false;
-    if($item->resourceTemplate()){
-        if($item->resourceTemplate()->label() == "3D Resource"){
-            $sketchFab = $item->value("mods:locationUrl");
+    $item = $attachment->item();
+    $imageMedia = [];
+    $otherMedia = [];
+    foreach ($item->media() as $media) {
+        $mediaType = $media->mediaType();
+        $mediaRenderer = $media->renderer();
+        if (
+            strpos($mediaType, "image/") !== false ||
+            strpos($mediaRenderer, "youtube") !== false
+        ) {
+            $imageMedia[] = $media;
+        } else {
+            $otherMedia[] = $media;
         }
     }
     ?>
-    <?php if ($sketchFab): ?>
-        <iframe width="100%" height="250px" src="<?php echo $sketchFab;?>/embed" frameborder="0" allowvr="" allowfullscreen="true" webkitallowfullscreen="true" onmousewheel=""></iframe>
+    <?php
+    $thingLink = false;
+    if ($item->resourceTemplate()) {
+        if ($item->resourceTemplate()->label() == "3D Resource") {
+            $thingLink = $item->value("mods:locationUrl");
+        }
+    }
+    ?>
+    <?php if ($thingLink): ?>
+        <iframe style="margin:auto;display:block;border:none; "width="300px" height="250px" data-original-width="300px" data-original-height="600px" src="<?php echo $thingLink; ?>" type="text/html" webkitallowfullscreen mozallowfullscreen allowfullscreen scrolling="no"></iframe>
+	<script async src="//cdn.thinglink.me/jse/responsive.js"></script>
+	<br/>
+	<a href="<?php echo $thingLink; ?>/accessibility" target="_blank" rel="noopener noreferrer">Click here to view the accessible version of this interactive content</a>
     <?php endif; ?>
-    <?php if (empty($item)) continue; ?>
+    <?php if (empty($item)) {
+        continue;
+    } ?>
 
     <div class="resource show">
         <?php if (count($imageMedia) > 0): ?>
         <ul class="lightgallery media-list">
             <?php foreach ($imageMedia as $media): ?>
-                <?php $source = ($media->originalUrl()) ? $media->originalUrl() : $media->source(); ?>
-                <li data-src="<?php echo $source; ?>" data-thumb="<?php echo $escape($media->thumbnailUrl('medium')); ?>"  data-download-url="<?php echo $source; ?>" class="media resource">
+                <?php $source = $media->originalUrl()
+                    ? $media->originalUrl()
+                    : $media->source(); ?>
+                <li data-src="<?php echo $source; ?>" data-thumb="<?php echo $escape(
+    $media->thumbnailUrl("medium")
+); ?>"  data-download-url="<?php echo $source; ?>" class="media resource">
                     <?php echo $media->render(); ?>
                 </li>
             <?php endforeach; ?>
@@ -52,12 +65,14 @@ $this->headScript()->appendFile($this->assetUrl('js/lg-zoom.js'));
 
         <?php echo $item->displayValues(); ?>
 
-        <?php if($item->itemSets()): ?>
+        <?php if ($item->itemSets()): ?>
             <div class="property">
-                <h4><?php echo $translate('Item sets'); ?></h4>
+                <h4><?php echo $translate("Item sets"); ?></h4>
                 <div class="values">
                     <?php foreach ($item->itemSets() as $itemSet): ?>
- <div class="value"><?php echo $itemSet->link($itemSet->displayTitle()); ?></div>
+ <div class="value"><?php echo $itemSet->link(
+     $itemSet->displayTitle()
+ ); ?></div>
                     <?php endforeach; ?>
                 </div>
             </div>
@@ -65,9 +80,9 @@ $this->headScript()->appendFile($this->assetUrl('js/lg-zoom.js'));
 
         <?php if (count($otherMedia) > 0): ?>
         <div id="other-media" class="property">
-            <h4><?php echo $this->translate('Other Media'); ?></h4>
+            <h4><?php echo $this->translate("Other Media"); ?></h4>
             <div class="values">
-                <?php foreach($otherMedia as $media): ?>
+                <?php foreach ($otherMedia as $media): ?>
                 <div class="value">
                     <a href="<?php echo $media->siteUrl(); ?>"><?php echo $media->displayTitle(); ?></a>
                 </div>
