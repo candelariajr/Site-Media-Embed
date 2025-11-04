@@ -25,10 +25,14 @@
         <?php endif; ?>
     <?php endif; ?>
     <?php if ($thingLink): ?>
-        <iframe width="100%" height="250px" data-original-width="100%" data-original-height="250px" src=""<?php echo $thingLink; ?>" type="text/html" style="border: none;" webkitallowfullscreen mozallowfullscreen allowfullscreen scrolling="no"></iframe>
-		<script async src="//cdn.thinglink.me/jse/responsive.js"></script>
-		<br/>
-		<a href="<?php echo $thingLink; ?>/accessibility" target="_blank" rel="noopener noreferrer">Click here to view the accessible version of this interactive content</a>
+        <?php if($thingLink):?>
+             <div>
+                 <iframe width="640" height="360" data-original-width="640" data-original-height="360" src="<?php echo $thingLink; ?>" type="text/html" style="border: none;" webkitallowfullscreen mozallowfullscreen allowfullscreen scrolling="no"></iframe>
+                 <script async src="//cdn.thinglink.me/jse/responsive.js"></script>
+                 <br/>
+                 <a href="<?php echo $thingLink; ?>" target="_blank" rel="noopener noreferrer">Click here to view the fullsize version of this interactive content</a>
+             </div>
+        <?php endif;?>
     <?php endif; ?>
     <?php
     $caption = $attachment->caption();
